@@ -14,6 +14,14 @@ jobs:
       with:
         msbuild-architecture: x64
     
+    - name: Fix xstddef include
+      shell: pwsh
+      run: |
+        $file = "DriverUtils\ObjectProxy.hpp"
+        $content = Get-Content $file -Raw
+        $content = $content -replace '#include <xstddef>\r?\n', ''
+        Set-Content $file $content -NoNewline
+    
     - name: Build Release x64
       shell: cmd
       run: |
