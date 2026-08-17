@@ -36,15 +36,15 @@ jobs:
         $content = $content -replace 'std::any_cast<GetProviderImpl<_Type>::Type>', 'std::any_cast<typename GetProviderImpl<_Type>::Type>'
         Set-Content $file $content -NoNewline
     
-    - name: Build Release x64
+    - name: Build Release x64 (Static Link)
       shell: cmd
       run: |
-        msbuild UsingBYOVD.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
+        msbuild UsingBYOVD.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:RuntimeLibrary=MultiThreaded
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: UsingBYOVD-x64-Release
+        name: UsingBYOVD-x64-Release-Static
         path: |
           x64/Release/UsingBYOVD.exe
           RawDriverFiles/*.sys
